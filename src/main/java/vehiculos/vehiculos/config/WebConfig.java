@@ -12,13 +12,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebConfig {
 
-    @Value("${app.frontend.origin}")
-    private String frontendOrigin;
+    @Value("${app.frontend.origins}")
+    private String frontendOrigins;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(frontendOrigin));
+        List<String> origins = parseOrigins(frontendOrigins);
+        configuration.setAllowedOriginPatterns(origins);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
@@ -26,5 +27,11 @@ public class WebConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    private List<String> parseOrigins(String origins) {
+        return origins == null || origins.isBlank()
+                ? List.of("*")
+                : List.of(origins.split(",")).stream().map(String::trim).toList();
     }
 }
