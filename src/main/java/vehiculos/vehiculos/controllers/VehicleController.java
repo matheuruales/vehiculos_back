@@ -3,6 +3,7 @@ package vehiculos.vehiculos.controllers;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import vehiculos.vehiculos.services.VehicleService;
 
 @RestController
 @RequestMapping("/api/vehicles")
+@CrossOrigin(origins = "*")
 @Tag(name = "Vehiculos", description = "CRUD de vehículos")
 public class VehicleController {
 

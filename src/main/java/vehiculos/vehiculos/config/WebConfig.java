@@ -12,8 +12,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebConfig {
 
-    @Value("${app.frontend.origins}")
-    private String frontendOrigins;
+    private final String frontendOrigins;
+
+    public WebConfig(@Value("${app.frontend.origins}") String frontendOrigins) {
+        this.frontendOrigins = frontendOrigins;
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
